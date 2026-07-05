@@ -1,9 +1,9 @@
-import connectDB from "@lib/mongodb";
-import { Todo } from "@lib/models/Todo";
+import { connectToDB } from "../../lib/mongodb";
+import { Todo } from "../../lib/models/Todo";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  await connectDB();
+  await connectToDB();
 
   const todos = await Todo.find();
   const response = NextResponse.json(todos);
@@ -15,7 +15,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const { data } = await req.json();
-    await connectDB();
+    await connectToDB();
     await Todo.create(data);
     return NextResponse.json(
       { message: "Todo created successfully" },
